@@ -24,11 +24,6 @@ export const generateRunCommand = (fileName: string): string => {
 
     // For output files or class names, we need the filename without extension
     // but still properly escaped
-    const fileNameWithoutExt = fileName.replace(
-        new RegExp(`\\.${extension}$`),
-        "",
-    )
-    const escapedFileNameWithoutExt = escapeShellArg(fileNameWithoutExt)
 
     // Handle each file type appropriately
     switch (extension) {
@@ -72,7 +67,6 @@ export const generateRunCommand = (fileName: string): string => {
             // Get the class name without extension
             const fullClassName = fileName.substring(lastSlashIndex + 1)
             const className = fullClassName.split(".")[0]
-            const escapedClassName = escapeShellArg(className)
 
             return `cd /home/devx/workspace && javac -d ${dirPath} ${escapedFileName} && java -cp ${dirPath} ${className}`
         }

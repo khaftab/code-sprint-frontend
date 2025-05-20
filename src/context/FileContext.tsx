@@ -16,7 +16,6 @@ import {
     useCallback,
     useContext,
     useEffect,
-    useRef,
     useState,
 } from "react"
 import { toast } from "react-hot-toast"
@@ -822,8 +821,6 @@ function FileContextProvider({ children }: { children: ReactNode }) {
     const handleFileStructureSync = useCallback(
         ({
             fileStructure,
-            openFiles,
-            activeFile,
         }: {
             fileStructure: FileSystemItem
             openFiles: FileSystemItem[]

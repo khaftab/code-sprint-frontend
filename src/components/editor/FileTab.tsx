@@ -9,7 +9,6 @@ import { useSettings } from "@/context/SettingContext"
 import langMap from "lang-map"
 import { useSocket } from "@/context/SocketContext"
 import { generateRunCommand } from "@/utils/getRunCommand"
-import { getFileById } from "@/utils/file"
 import { getFilePathById } from "@/utils/getFilePath"
 
 function FileTab() {

@@ -40,13 +40,8 @@ const findDirectoryById = (
 }
 
 function FileStructureView() {
-    const {
-        fileStructure,
-        createFile,
-        createDirectory,
-        collapseDirectories,
-        toggleDirectory,
-    } = useFileSystem()
+    const { fileStructure, collapseDirectories, toggleDirectory } =
+        useFileSystem()
     const explorerRef = useRef<HTMLDivElement | null>(null)
     const [selectedDirId, setSelectedDirId] = useState<Id>(fileStructure.id)
     const { minHeightReached } = useResponsive()
@@ -437,7 +432,6 @@ function Directory({
 
 const File = ({
     item,
-    setSelectedDirId,
 }: {
     item: FileSystemItem
     setSelectedDirId: (id: Id) => void

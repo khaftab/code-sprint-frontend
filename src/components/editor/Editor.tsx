@@ -19,15 +19,13 @@ import CodeMirror, {
 import { useEffect, useMemo, useState, useRef } from "react"
 import toast from "react-hot-toast"
 import { cursorTooltipBaseTheme, tooltipField } from "./tooltip"
-import { Terminal as XTerm } from "xterm"
-import TerminalComponent, { TerminalHandle } from "../terminal/MyTerminal"
+import TerminalComponent, { TerminalHandle } from "../terminal/Terminal"
 import { cpp } from "@codemirror/lang-cpp"
 import { debounce } from "@/utils/debounce"
 
 function Editor() {
     const { users, currentUser } = useAppContext()
-    const { activeFile, setActiveFile, fileStructure, updateFileContent } =
-        useFileSystem()
+    const { activeFile, setActiveFile, updateFileContent } = useFileSystem()
     const { theme, language, fontSize } = useSettings()
     const { socket } = useSocket()
     const { viewHeight } = useResponsive()
@@ -38,7 +36,6 @@ function Editor() {
     )
     const [extensions, setExtensions] = useState<Extension[]>([])
     const [showTerminal, setShowTerminal] = useState(false)
-    const [terminalHeight, setTerminalHeight] = useState(250)
     const terminalRef = useRef<TerminalHandle>(null)
 
     const debouncedSave = debounce((content: string) => {
@@ -135,18 +132,11 @@ function Editor() {
         }
     }, [showTerminal])
 
-    const handleRunClick = () => {
-        if (socket) {
-            socket.emit("terminal-input", "node hello.js")
-            socket.emit("terminal-input", "\r")
-        }
-    }
-
     const fileTabHeight = 50
     const adjustedViewHeight = viewHeight - fileTabHeight
 
     const editorHeight = showTerminal
-        ? `calc(${adjustedViewHeight}px - ${terminalHeight}px)`
+        ? `calc(${adjustedViewHeight}px - 250px)`
         : `${adjustedViewHeight}px`
 
     return (

@@ -1,6 +1,3 @@
-import { useFileSystem } from "@/context/FileContext"
-import { useNavigate, useParams } from "react-router-dom"
-
 function ConnectionStatusPage() {
     return (
         <div className="flex h-screen min-h-screen flex-col items-center justify-center gap-6 px-4 text-center">
@@ -10,16 +7,15 @@ function ConnectionStatusPage() {
 }
 
 const ConnectionError = () => {
-    const navigate = useNavigate()
     const reloadPage = () => {
         window.location.reload()
     }
-    const { resetFileStructure } = useFileSystem()
-    const gotoHomePage = () => {
-        sessionStorage.removeItem("redirect")
-        resetFileStructure()
-        navigate("/")
-    }
+    // const { resetFileStructure } = useFileSystem()
+    // const gotoHomePage = () => {
+    //     sessionStorage.removeItem("redirect")
+    //     resetFileStructure()
+    //     navigate("/")
+    // }
 
     return (
         <>

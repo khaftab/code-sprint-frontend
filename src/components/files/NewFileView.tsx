@@ -10,8 +10,7 @@ interface NewFileViewProps {
 }
 
 function NewFileView({ parentId, setCreatingFile, openDir }: NewFileViewProps) {
-    const { createFile, setActiveFile, activeFile, updateFileContent } =
-        useFileSystem()
+    const { createFile, activeFile, updateFileContent } = useFileSystem()
     const inputRef = useRef<HTMLInputElement | null>(null)
     console.log("Prent id", parentId)
 
