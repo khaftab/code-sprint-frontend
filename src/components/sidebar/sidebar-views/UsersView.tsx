@@ -46,6 +46,7 @@ function UsersView() {
         navigate("/", {
             replace: true,
         })
+        sessionStorage.removeItem("redirect")
     }
 
     return (
