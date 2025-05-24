@@ -109,8 +109,5 @@ select {
 
 .terminal-container {
     overflow: hidden !important;
-    /* background: red; */
-    /* padding: 1rem; */
-    /* width: 100vw !important; */
     width: 100% !important;
 }

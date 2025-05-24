@@ -17,7 +17,6 @@ import CodeMirror, {
     scrollPastEnd,
 } from "@uiw/react-codemirror"
 import { useEffect, useMemo, useState, useRef } from "react"
-import toast from "react-hot-toast"
 import { cursorTooltipBaseTheme, tooltipField } from "./tooltip"
 import TerminalComponent, { TerminalHandle } from "../terminal/Terminal"
 import { cpp } from "@codemirror/lang-cpp"
@@ -97,15 +96,7 @@ function Editor() {
             : loadLanguage(language.toLowerCase() as LanguageName)
         if (langExt) {
             extensions.push(langExt)
-        } else {
-            toast.error(
-                "Syntax highlighting is unavailable for this language. Please adjust the editor settings; it may be listed under a different name.",
-                {
-                    duration: 5000,
-                },
-            )
         }
-
         setExtensions(extensions)
     }, [filteredUsers, language, activeFile]) // Add activeFile as dependency
 
@@ -164,7 +155,7 @@ function Editor() {
                 />
                 <TerminalComponent
                     ref={terminalRef}
-                    initialHeight={283.9}
+                    initialHeight={284}
                     initialVisible={false}
                     onVisibilityChange={() => {}}
                 />

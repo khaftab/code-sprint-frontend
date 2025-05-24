@@ -17,8 +17,6 @@ interface AppContext {
     setCurrentUser: (user: User) => void
     status: USER_STATUS
     setStatus: (status: USER_STATUS) => void
-    test: string
-    isTest: (test: string) => void
     activityState: ACTIVITY_STATE
     setActivityState: (state: ACTIVITY_STATE) => void
     drawingData: DrawingData

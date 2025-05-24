@@ -14,10 +14,6 @@ function UsersView() {
     const { viewHeight } = useResponsive()
     const { setStatus } = useAppContext()
     const { socket } = useSocket()
-    // if (!socket) {
-    //     console.log("Socket is not connected", socket)
-    //     return
-    // }
 
     const copyURL = async () => {
         const url = window.location.href

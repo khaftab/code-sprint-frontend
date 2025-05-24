@@ -21,7 +21,6 @@ export const useAppContext = (): AppContextType => {
 function AppContextProvider({ children }: { children: ReactNode }) {
     const [users, setUsers] = useState<RemoteUser[]>([])
     const [status, setStatus] = useState<USER_STATUS>(USER_STATUS.INITIAL)
-    const [test, isTest] = useState("haka")
     const [currentUser, setCurrentUser] = useState<User>({
         username: "",
         roomId: "",
@@ -40,8 +39,6 @@ function AppContextProvider({ children }: { children: ReactNode }) {
                 setCurrentUser,
                 status,
                 setStatus,
-                test,
-                isTest,
                 activityState,
                 setActivityState,
                 drawingData,

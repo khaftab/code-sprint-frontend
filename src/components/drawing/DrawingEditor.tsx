@@ -49,8 +49,6 @@ function ReachEditor() {
     // Handle drawing updates from other clients
     const handleRemoteDrawing = useCallback(
         ({ snapshot }: { snapshot: RecordsDiff<TLRecord> }) => {
-            console.log("Received remote drawing update")
-
             editor.store.mergeRemoteChanges(() => {
                 const { added, updated, removed } = snapshot
 

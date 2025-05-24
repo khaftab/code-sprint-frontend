@@ -23,15 +23,8 @@ function FileTab() {
     const fileTabRef = useRef<HTMLDivElement>(null)
     const { setLanguage } = useSettings()
     const { socket } = useSocket()
-    // if (!socket) {
-    //     console.log("Socket is not connected", socket)
-    //     return
-    // }
-    // console.log("active from filetap", activeFile?.name)
 
     const changeActiveFile = (fileId: string) => {
-        console.log("change active file")
-
         // If the file is already active, do nothing
         if (activeFile?.id === fileId) return
 
@@ -94,7 +87,6 @@ function FileTab() {
 
         const path = getFilePathById(activeFile?.id || "", fileStructure)
         const command = generateRunCommand(path || "")
-        console.log("path", command)
 
         if (socket) {
             // emit node index.js
@@ -104,7 +96,6 @@ function FileTab() {
     }
 
     return (
-        // <div className="flex items-center justify-between">
         <div
             className="relative flex h-[50px] w-full select-none items-center justify-between gap-2 overflow-x-auto overflow-y-hidden p-2 pb-1"
             ref={fileTabRef}
@@ -118,8 +109,6 @@ function FileTab() {
                             { "bg-darkHover": file.id === activeFile?.id },
                         )}
                         onClick={() => {
-                            console.log("I clicked on a file - ", file.name)
-
                             changeActiveFile(file.id)
                         }}
                     >
@@ -151,16 +140,7 @@ function FileTab() {
             >
                 <IoPlayOutline size={30} />
             </div>
-            {/* <TerminalComponent
-                initialHeight={300}
-                initialVisible={false}
-                onVisibilityChange={() => {}}
-            /> */}
         </div>
-        /* <div className="mx-2 flex h-[50px] w-fit cursor-pointer items-center justify-center rounded-md px-3 text-white hover:bg-darkHover">
-                <IoPlayOutline size={30} />
-            </div> */
-        // </div>
     )
 }
 

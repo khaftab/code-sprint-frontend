@@ -10,23 +10,16 @@ import logo from "@/assets/logo.svg"
 
 const FormComponent = () => {
     const location = useLocation()
-    const { currentUser, setCurrentUser, status, test, setStatus } =
-        useAppContext()
+    const { currentUser, setCurrentUser, status, setStatus } = useAppContext()
     const { initializeSocket } = useSocket()
     const usernameRef = useRef<HTMLInputElement | null>(null)
     const navigate = useNavigate()
-    const BACKEND_URL =
-        import.meta.env.VITE_BACKEND_URL || "http://35.222.178.241"
-    // const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000"
-    console.log(BACKEND_URL)
 
     const createNewRoomId = () => {
         setCurrentUser({ ...currentUser, roomId: uuidv4() })
         toast.success("Created a new Room Id")
         usernameRef.current?.focus()
     }
-
-    console.log({ status, test })
 
     const handleInputChanges = (e: ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name
@@ -61,11 +54,14 @@ const FormComponent = () => {
             setStatus(USER_STATUS.ATTEMPTING_JOIN)
 
             // Get dynamic socket path from backend
-            const response = await fetch(`${BACKEND_URL}/api/get-socket-path`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ roomId: currentUser.roomId }),
-            })
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/api/get-socket-path`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ roomId: currentUser.roomId }),
+                },
+            )
 
             const { socketPath } = await response.json()
             // console.log(`Socket path: ${socketPath}`)
@@ -91,12 +87,6 @@ const FormComponent = () => {
         }
     }
 
-    // useEffect(() => {
-    //     if (socket) {
-    //         socket.disconnect()
-    //     }
-    // }, [socket])
-
     useEffect(() => {
         if (currentUser.roomId.length > 0) return
         if (location.state?.roomId) {
@@ -108,20 +98,9 @@ const FormComponent = () => {
     }, [currentUser, location.state?.roomId, setCurrentUser])
 
     useEffect(() => {
-        // if (status === USER_STATUS.JOINED) {
-        //     const username = currentUser.username
-        //     sessionStorage.setItem("redirect", "true")
-        //     navigate(`/editor/${currentUser.roomId}`, {
-        //         state: { username },
-        //     })
-        // }
-        // return
-
         const isRedirect = sessionStorage.getItem("redirect") || false
 
         if (status === USER_STATUS.JOINED && !isRedirect) {
-            console.log("I ran", isRedirect, status)
-
             const username = currentUser.username
             sessionStorage.setItem("redirect", "true")
             navigate(`/editor/${currentUser.roomId}`, {
@@ -131,8 +110,6 @@ const FormComponent = () => {
             (status === USER_STATUS.JOINED || status === USER_STATUS.INITIAL) &&
             isRedirect
         ) {
-            console.log("I ran else", isRedirect, status)
-
             sessionStorage.removeItem("redirect")
             setStatus(USER_STATUS.DISCONNECTED)
         }

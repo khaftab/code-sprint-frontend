@@ -11,10 +11,6 @@ import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism"
 
 function CopilotView() {
     const { socket } = useSocket()
-    // if (!socket) {
-    //     console.log("Socket is not connected", socket)
-    //     return
-    // }
     const { viewHeight } = useResponsive()
     const { generateCode, output, isRunning, setInput } = useCopilot()
     const { activeFile, updateFileContent, setActiveFile } = useFileSystem()
@@ -29,8 +25,6 @@ function CopilotView() {
             console.log(error)
         }
     }
-
-    console.log("Replacing code in file", activeFile)
 
     const pasteCodeInFile = () => {
         if (activeFile) {

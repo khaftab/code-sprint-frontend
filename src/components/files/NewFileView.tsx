@@ -12,7 +12,6 @@ interface NewFileViewProps {
 function NewFileView({ parentId, setCreatingFile, openDir }: NewFileViewProps) {
     const { createFile, activeFile, updateFileContent } = useFileSystem()
     const inputRef = useRef<HTMLInputElement | null>(null)
-    console.log("Prent id", parentId)
 
     useEffect(() => {
         openDir()
@@ -36,6 +35,16 @@ function NewFileView({ parentId, setCreatingFile, openDir }: NewFileViewProps) {
             }
             if (!fileName?.includes(".")) {
                 toast.error("File name must contain a file extension")
+                return
+            }
+
+            if (fileName?.startsWith(".")) {
+                toast.error("File name cannot start with a dot")
+                return
+            }
+
+            if (fileName?.length > 25) {
+                toast.error("File name cannot be longer than 25 characters")
                 return
             }
 

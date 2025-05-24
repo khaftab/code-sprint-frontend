@@ -55,8 +55,6 @@ function FileStructureView() {
         }
     }
 
-    // console.log("Selected Directory ID:", selectedDirId)
-
     const handleCreateFile = (e: React.MouseEvent) => {
         e.stopPropagation()
         setCreatingFile(true)
@@ -214,7 +212,6 @@ function Directory({
 
     const handleDirClick = (e: MouseEvent, dirId: string) => {
         e.stopPropagation()
-        console.log("Directory clicked:", dirId)
 
         // If it's already selected, just toggle its state
         if (selectedDirId === dirId) {
@@ -448,8 +445,6 @@ const File = ({
     })
 
     const handleFileClick = (e: MouseEvent, fileId: string) => {
-        console.log("File clicked:", fileId)
-
         e.stopPropagation()
         if (isEditing) return
 

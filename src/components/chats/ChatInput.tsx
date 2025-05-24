@@ -11,10 +11,6 @@ import { v4 as uuidV4 } from "uuid"
 function ChatInput() {
     const { currentUser } = useAppContext()
     const { socket } = useSocket()
-    // if (!socket) {
-    //     console.log("Socket is not connected", socket)
-    //     return
-    // }
     const { setMessages } = useChatRoom()
     const inputRef = useRef<HTMLInputElement | null>(null)
 

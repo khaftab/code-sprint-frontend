@@ -42,10 +42,10 @@ function RenameView({ id, preName, setEditing, type }: RenameViewProps) {
             return
         }
 
-        // if (trimmedName === preName) {
-        //     toast.error(`${capitalizedType} name cannot be the same as before`)
-        //     return
-        // }
+        if (trimmedName.startsWith(".")) {
+            toast.error(`${capitalizedType} name cannot start with a dot`)
+            return
+        }
 
         // If we've made it here, the name is valid
         const isRenamed =

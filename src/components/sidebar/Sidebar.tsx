@@ -25,10 +25,7 @@ function Sidebar() {
     const { minHeightReached } = useResponsive()
     const { activityState, setActivityState } = useAppContext()
     const { socket } = useSocket()
-    // if (!socket) {
-    //     console.log("Socket is not connected", socket)
-    //     return
-    // }
+
     const { isMobile } = useWindowDimensions()
     const [showTooltip, setShowTooltip] = useState(true)
 

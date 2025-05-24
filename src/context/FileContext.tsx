@@ -53,9 +53,6 @@ function FileContextProvider({ children }: { children: ReactNode }) {
         openFiles[0],
     )
 
-    // console.log(fileStructure, "fileStruction")
-
-    // console.log("activeFile from context", activeFile)
     const resetFileStructure = () => {
         setFileStructure({
             name: "root",
@@ -65,19 +62,6 @@ function FileContextProvider({ children }: { children: ReactNode }) {
         setOpenFiles([])
         setActiveFile(null)
     }
-
-    // const fileStructureRef = useRef(fileStructure)
-
-    // console.log("fileStructureRef", fileStructureRef.current)
-
-    // Update your useEffect to keep the ref in sync
-    useEffect(() => {
-        console.log(fileStructure, "fileStructure")
-        // console.log(fileStructureRef.current, "fileStructureRef")
-
-        // fileStructureRef.current = fileStructure
-    }, [fileStructure])
-    // When, server sends directoryCreate, createFile socket events when user, filestructure does not able to update with that span of time. That's why we are using this soln.
 
     // Function to toggle the isOpen property of a directory (Directory Open/Close)
     const toggleDirectory = (dirId: Id) => {
@@ -350,8 +334,6 @@ function FileContextProvider({ children }: { children: ReactNode }) {
     )
 
     const openFile = (fileId: Id) => {
-        console.log("Open file function has been called")
-
         const file = getFileById(fileStructure, fileId)
 
         if (file) {
@@ -387,8 +369,6 @@ function FileContextProvider({ children }: { children: ReactNode }) {
             // Save the content of the active file before closing
             updateFileContent(activeFile.id, activeFile.content || "")
             const fileIndex = openFiles.findIndex((file) => file.id === fileId)
-            console.log("fileIndex", fileIndex)
-            console.log("openFiles", openFiles.length)
 
             if (fileIndex !== -1 && openFiles.length > 1) {
                 if (fileIndex > 0) {
@@ -399,37 +379,19 @@ function FileContextProvider({ children }: { children: ReactNode }) {
             } else {
                 setActiveFile(null)
             }
-
-            console.log("activeFile", activeFile)
         } else {
             // If the file is not active, then we need make another file active if it is open
 
             const fileIndex = openFiles.findIndex((file) => file.id === fileId)
             setActiveFile(openFiles[fileIndex + 1])
 
-            console.log("fileIndex else", fileIndex)
-            console.log("openFiles else", openFiles.length)
-
-            // setOpenFiles((prevOpenFiles) => {
-            //     setActiveFile(openFiles[fileIndex + 1])
-            //     return prevOpenFiles.filter(
-            //         (openFile) => openFile.id !== fileId,
-            //     )
-            // })
-
             if (fileIndex !== -1 && openFiles.length > 1) {
                 if (fileIndex > 0) {
-                    console.log("greater than 0")
-
                     setActiveFile(openFiles[fileIndex - 1])
                 } else {
-                    console.log("less than 0", openFiles[fileIndex + 1])
-
                     setActiveFile(openFiles[fileIndex + 1])
                 }
             } else {
-                console.log("else else")
-
                 setActiveFile(null)
             }
         }
@@ -448,12 +410,9 @@ function FileContextProvider({ children }: { children: ReactNode }) {
         ): Id => {
             // Check if file with same name already exists
             let num = 1
-            console.log("parentDir -p", parentDirId)
             if (!parentDirId) parentDirId = fileStructure.id
 
-            console.log("parentDir +p", parentDirId)
             const parentDir = findParentDirectory(fileStructure, parentDirId)
-            console.log("parentDir", parentDir)
 
             if (!parentDir) throw new Error("Parent directory not found")
 

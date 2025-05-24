@@ -12,7 +12,7 @@ import useResponsive from "@/hooks/useResponsive"
 import { useSocket } from "@/context/SocketContext"
 
 interface TerminalComponentProps {
-    initialHeight?: number
+    initialHeight: number
     initialVisible?: boolean
     onVisibilityChange?: (isVisible: boolean) => void
 }
@@ -27,10 +27,7 @@ export interface TerminalHandle {
 }
 
 const TerminalComponent = forwardRef<TerminalHandle, TerminalComponentProps>(
-    (
-        { initialHeight = 300, initialVisible = false, onVisibilityChange },
-        ref,
-    ) => {
+    ({ initialHeight, initialVisible = false, onVisibilityChange }, ref) => {
         const [showTerminal, setShowTerminal] = useState(initialVisible)
         const [terminalHeight, setTerminalHeight] = useState(initialHeight)
         const { viewHeight } = useResponsive()
@@ -39,7 +36,6 @@ const TerminalComponent = forwardRef<TerminalHandle, TerminalComponentProps>(
         const isResizing = useRef(false)
         const terminalRef = useRef<XTerm | null>(null)
         const { socket } = useSocket()
-        // let socket: Socket
 
         // Expose the terminal reference and methods to parent components
         useImperativeHandle(
@@ -76,8 +72,9 @@ const TerminalComponent = forwardRef<TerminalHandle, TerminalComponentProps>(
             }
             if (showTerminal)
                 setTimeout(() => {
-                    setTerminalHeight((prev) => prev + 0.1)
+                    setTerminalHeight((prev) => prev + 0.01)
                 }, 500)
+            // Re setting the terminal height, so, that terminal fit addon applies. Otherwise, when coming from another route and opening terminal, it cuts out the text when there is scroll.
         }, [showTerminal, onVisibilityChange])
 
         const startResize = (e: React.MouseEvent) => {
@@ -114,9 +111,6 @@ const TerminalComponent = forwardRef<TerminalHandle, TerminalComponentProps>(
         useEffect(() => {
             // socket.disconnect()
             // socket.connect()
-            // console.log(currentUser, "currentUserEd")
-
-            // socket.emit(SocketEvent.JOIN_REQUEST, currentUser)
             // Disconnecting and connecting to the socket again to ensure a fresh connection which will set inital response (devx:~/workspace$) to the terminal.
             if (!socket) return
             socket.on("connect", () => {
@@ -151,8 +145,6 @@ const TerminalComponent = forwardRef<TerminalHandle, TerminalComponentProps>(
         }, [socket])
 
         useEffect(() => {
-            // terminalRef.current?.write("sdfljjksf")
-
             const handleKeyDown = (e: KeyboardEvent) => {
                 if (e.ctrlKey && e.key === "j") {
                     setShowTerminal((prev) => !prev)
@@ -170,98 +162,47 @@ const TerminalComponent = forwardRef<TerminalHandle, TerminalComponentProps>(
         }
 
         const handleCommand = (command: string) => {
-            // socket.emit("terminal:write", command)
-
             if (socket) socket.emit("terminal-input", command)
-            // if (command === "\r") {
-            //     socket.emit("terminal-input", "\r")
-            // } else {
-            //     socket.emit("terminal-input", command)
-            // }
         }
 
         return (
-            <div
-                style={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    zIndex: 50,
-                }}
-            >
+            <div className="absolute bottom-0 left-0 right-0 z-50">
                 {/* "Hide Terminal" Toggle */}
                 {showTerminal && (
                     <div
+                        className="absolute left-1/2 z-10 flex cursor-pointer items-center rounded bg-[#333] px-2.5 py-0.5"
                         style={{
-                            position: "absolute",
-                            bottom: terminalHeight, // Align with top of inner div
-                            left: "50%",
+                            bottom: terminalHeight,
                             transform:
-                                "translateX(-50%) translateY(-100%) translateY(20px)", // Center and move up by height + 15px
-                            backgroundColor: "#333",
-                            borderRadius: "4px",
-                            padding: "2.5px 10px",
-                            display: "flex",
-                            alignItems: "center",
-                            cursor: "pointer",
-                            zIndex: 10,
+                                "translateX(-50%) translateY(-100%) translateY(20px)",
                         }}
                         onClick={() => setShowTerminal(false)}
                     >
                         <ChevronDown size={16} />
-                        {/* <span style={{ marginLeft: "4px", fontSize: "12px" }}>
-                        Hide Terminal
-                    </span> */}
                     </div>
                 )}
 
                 {/* Terminal Inner Div */}
                 <div
-                    style={{
-                        position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        display: "flex",
-                        flexDirection: "column",
-                        height: showTerminal ? "auto" : "0",
-                        overflow: "hidden",
-                        transition: "height 0.3s ease",
-                    }}
+                    className={`transition-height absolute bottom-0 left-0 right-0 flex flex-col overflow-hidden duration-300 ease-in-out ${showTerminal ? "h-auto" : "h-0"}`}
                 >
                     <div
-                        className="terminal-resize-handle"
+                        className={`terminal-resize-handle relative h-1 w-full cursor-ns-resize bg-[#333] ${
+                            showTerminal ? "visible" : "hidden"
+                        }`}
                         onMouseDown={startResize}
-                        style={{
-                            width: "100%",
-                            height: "5px",
-                            cursor: "ns-resize",
-                            backgroundColor: "#333",
-                            position: "relative",
-                            visibility: showTerminal ? "visible" : "hidden",
-                        }}
                     />
                     <div
-                        className="terminal-container"
+                        className={`terminal-container w-full overflow-hidden ${
+                            showTerminal ? "visible" : "hidden"
+                        } bg-[#1e1e1e]`}
                         style={{
-                            backgroundColor: "#1e1e1e",
                             height: terminalHeight,
-                            width: "100%",
-                            overflow: "hidden",
-                            visibility: showTerminal ? "visible" : "hidden",
                         }}
                     >
                         <Terminal
                             onReady={handleTerminalReady}
                             onData={handleCommand}
-                            // onCommand={handleCommand}
-                            options={
-                                {
-                                    // fontSize: 14,
-                                    // rows: Math.floor(terminalHeight / 20),
-                                }
-                            }
                         />
                     </div>
                 </div>
@@ -269,33 +210,14 @@ const TerminalComponent = forwardRef<TerminalHandle, TerminalComponentProps>(
                 {/* "Show Terminal" Toggle */}
                 {!showTerminal && (
                     <div
-                        className="terminal-toggle flex justify-center"
-                        style={{
-                            position: "absolute",
-                            bottom: "0",
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                            background: "#333",
-                            borderRadius: "4px 4px 0 0",
-                            padding: "2px 8px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            cursor: "pointer",
-                            zIndex: 10,
-                        }}
+                        className="terminal-toggle absolute bottom-0 left-1/2 z-10 flex cursor-pointer items-center justify-center rounded-t bg-[#333] px-2 py-0.5"
+                        style={{ transform: "translateX(-50%)" }}
                         onClick={() => {
                             setShowTerminal(true)
-                            // setTimeout(() => {
-                            //     setTerminalHeight((prev) => prev + 0.1)
-                            // }, 500)
-                            // Re setting the terminal height, so, that terminal fit addon applies. Otherwise, when coming from another route and opening terminal, it cuts out the text when there is scroll.
                         }}
                     >
                         <ChevronUp size={16} />
-                        <span style={{ marginLeft: "4px", fontSize: "12px" }}>
-                            Terminal (Ctrl+J)
-                        </span>
+                        <span className="ml-1 text-xs">Terminal (Ctrl+J)</span>
                     </div>
                 )}
             </div>

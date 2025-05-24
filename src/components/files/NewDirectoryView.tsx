@@ -38,7 +38,19 @@ function NewDirectoryView({
                 return
             }
 
-            if (dirName && dirName.trim() !== "") {
+            if (dirName?.startsWith(".")) {
+                toast.error("Directory name cannot start with a dot")
+                return
+            }
+
+            if (dirName && dirName.length > 25) {
+                toast.error(
+                    "Directory name cannot be longer than 25 characters",
+                )
+                return
+            }
+
+            if (dirName) {
                 createDirectory(parentId, dirName)
                 setCreatingDirectory(false)
             }
@@ -54,7 +66,7 @@ function NewDirectoryView({
     return (
         <input
             ref={inputRef}
-            className="flex-grow bg-transparent outline-none focus:outline-none"
+            className="w-full flex-grow bg-transparent outline-none focus:outline-none"
             type="text"
             placeholder="Enter folder name"
             onKeyDown={handleKeyDown}

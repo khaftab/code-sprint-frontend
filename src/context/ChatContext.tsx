@@ -21,10 +21,6 @@ export const useChatRoom = (): ChatContextType => {
 
 function ChatContextProvider({ children }: { children: ReactNode }) {
     const { socket } = useSocket()
-    // if (!socket) {
-    //     console.log("Socket is not connected", socket)
-    //     return
-    // }
     const [messages, setMessages] = useState<ChatMessage[]>([])
     const [isNewMessage, setIsNewMessage] = useState<boolean>(false)
     const [lastScrollHeight, setLastScrollHeight] = useState<number>(0)
