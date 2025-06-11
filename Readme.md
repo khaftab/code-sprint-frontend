@@ -2,7 +2,7 @@
 
 A powerful real-time collaborative coding platform supporting 7+ languages with integrated terminal, file management, and persistent data storage. Designed for seamless team collaboration with all execution handled in dedicated containers.
 
-> Visit the live preview [Code Sprint](https://code-sprint.vercel.app){:target="\_blank"} to experience the platform in action.
+> Visit the live preview [Code Sprint](https://code-sprint.khaftab.me) to experience the platform in action.
 
 ---
 
@@ -103,7 +103,7 @@ A powerful real-time collaborative coding platform supporting 7+ languages with 
 #### 1. Clone & Set Up Backend
 
 Go to the backend repository and follow the setup instructions:
-👉 [Code Sprint Backend Repository](https://github.com/khaftab/code-sprint-backend){:target="\_blank"}
+👉 [Code Sprint Backend Repository](https://github.com/khaftab/code-sprint-backend)
 
 Make sure the backend server is running and accessible.
 
